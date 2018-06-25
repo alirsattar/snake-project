@@ -38,7 +38,7 @@ SnakeGame.prototype.globalTick = function(tickRate) {
         switch (theGame.snake.directionFacing) {
 
             case 'UP':
-            if (that.snake.canMove(that.snake.x, that.snake.y - unit, that.snake.segments)) {
+            if (that.snake.canMove(that.snake.x, that.snake.y - unit, that.allObjects)) {
                 that.snake.y -= unit;
                 that.snake.segments.unshift({x: that.snake.x, y: that.snake.y});
                 if (that.snake.segments.length > that.snake.maxSegments) { that.snake.segments.pop() };
@@ -46,7 +46,7 @@ SnakeGame.prototype.globalTick = function(tickRate) {
             break;
 
             case 'DOWN':
-            if (that.snake.canMove(that.snake.x, that.snake.y + unit, that.snake.segments)) {
+            if (that.snake.canMove(that.snake.x, that.snake.y + unit, that.allObjects)) {
                 that.snake.y += unit;
                 that.snake.segments.unshift({x: that.snake.x, y: that.snake.y});
                 if (that.snake.segments.length > that.snake.maxSegments) { that.snake.segments.pop() };
@@ -54,7 +54,7 @@ SnakeGame.prototype.globalTick = function(tickRate) {
             break;
 
             case 'RIGHT':
-            if (that.snake.canMove(that.snake.x + unit, that.snake.y, that.snake.segments)) {
+            if (that.snake.canMove(that.snake.x + unit, that.snake.y, that.allObjects)) {
                 that.snake.x += unit;
                 that.snake.segments.unshift({x: that.snake.x, y: that.snake.y});
                 if (that.snake.segments.length > that.snake.maxSegments) { that.snake.segments.pop() };
@@ -62,7 +62,7 @@ SnakeGame.prototype.globalTick = function(tickRate) {
             break;
 
             case 'LEFT':
-            if (that.snake.canMove(that.snake.x - unit, that.snake.y, that.snake.segments)) {
+            if (that.snake.canMove(that.snake.x - unit, that.snake.y, that.allObjects)) {
                 that.snake.x -= unit;
                 that.snake.segments.unshift({x: that.snake.x, y: that.snake.y});
                 if (that.snake.segments.length > that.snake.maxSegments) { that.snake.segments.pop() };
@@ -179,13 +179,15 @@ Snake.prototype.drawFood = function () {
 
 Snake.prototype.canMove = function (snakeFutureX, snakeFutureY, objectsArray) {
 
+    // var objectsArray = arrayOfObjects[0];
+
     var that = this;
     
     for (var i = 0; i < objectsArray.length; i++) {
-        if (objectsArray[i].x === snakeFutureX && objectsArray[i].y === snakeFutureY) {
-        theGame.snake.resetSnake();
-        return false;
-        }
+            if (objectsArray[i].x === snakeFutureX && objectsArray[i].y === snakeFutureY) {
+            theGame.snake.resetSnake();
+            return false;
+            }
         }
         return true;
         
@@ -251,5 +253,7 @@ document.getElementById("start-button").onclick = function() {
         // theGame.snake.edgeLoop();
 
         theGame.snake.changeDirection();
+
+        theGame.allObjects = [{x: 0, y: 0}];
 
 }

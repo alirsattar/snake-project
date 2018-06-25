@@ -179,14 +179,15 @@ Snake.prototype.drawFood = function () {
 
 Snake.prototype.canMove = function (snakeFutureX, snakeFutureY, objectsArray) {
 
-    // var objectsArray = arrayOfObjects[0];
-
     var that = this;
     
     for (var i = 0; i < objectsArray.length; i++) {
-            if (objectsArray[i].x === snakeFutureX && objectsArray[i].y === snakeFutureY) {
-            theGame.snake.resetSnake();
-            return false;
+        for (j = 0; j < objectsArray[i].length; j++) {
+            if (objectsArray[i][j].x === snakeFutureX && objectsArray[i][j].y === snakeFutureY) {
+                
+                theGame.snake.resetSnake();
+                return false;
+                }
             }
         }
         return true;

@@ -103,6 +103,7 @@ SnakeGame.prototype.globalTick = function(tickRate) {
 
         that.snake.drawSnake();
         that.snake.drawFood();
+        that.snake.eatFood();
         that.allObjects.splice(0, that.snake.segments.length, that.snake.segments);
     
     }, tickRate);
@@ -167,6 +168,24 @@ Snake.prototype.resetSnake = function() {
     that.y = 200;
     that.maxSegments = 4;
 
+}
+
+// FUNCTION FOR SNAKE EATING FOOD
+
+Snake.prototype.eatFood = function() {
+
+    var that = this;
+    
+    if (theGame.snake.segments[0].x === food.x && theGame.snake.segments[0].y === food.y) {
+
+        console.log('collision with food');
+        
+        that.maxSegments++;
+        that.spawnFood();
+    
+    } else {
+        console.log('NO COLLISION');
+    }
 }
 
 Snake.prototype.drawFood = function () {

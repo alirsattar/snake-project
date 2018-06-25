@@ -21,7 +21,7 @@ var SnakeGame = function() {
 
 }
 
-// THIS FUNCTION WILL ANIMATE ALL OBJECTS (INCLUDING SNAKES) ON THE CANVAS, AT A RATE OF 500MS (IE. EVERY HALF-SECOND).
+// THIS FUNCTION WILL ANIMATE ALL OBJECTS (INCLUDING SNAKES) ON THE CANVAS, AT A RATE OF 250MS (IE. EVERY -SECOND).
 // "GLOBAL TICK" REFERS TO THIS SWEEP EVERY .5 SECONDS TO UPDATE THE GAME SPACE.
 
 SnakeGame.prototype.globalTick = function(tickRate) {
@@ -83,7 +83,7 @@ SnakeGame.prototype.globalTick = function(tickRate) {
     
             that.snake.x = canvas.width - unit;
         
-        } else if (that.snake.x > canvas.width) {
+        } else if (that.snake.x + that.snake.width > canvas.width) {
         
             that.snake.x = 0;
         
@@ -93,7 +93,7 @@ SnakeGame.prototype.globalTick = function(tickRate) {
         
             that.snake.y = canvas.height - unit;
         
-        } else if (that.snake.y > canvas.height) {
+        } else if (that.snake.y + that.snake.height > canvas.height) {
         
             that.snake.y = 0;
 

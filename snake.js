@@ -6,11 +6,18 @@ var ctx = canvas.getContext('2d');
 
 var unit = 20;
 
+var food = {
+    x: Math.round(Math.floor(Math.random() * 400) / 20) * 20,
+    y: Math.round(Math.floor(Math.random() * 400) / 20) * 20
+    }
+
 // FUNCTION TO START A NEW INSTANCE OF THE GAME
 
 var SnakeGame = function() {
 
     this.snake = {};
+
+    this.allObjects = [];
 
 }
 
@@ -95,6 +102,8 @@ SnakeGame.prototype.globalTick = function(tickRate) {
         // ctx.drawImage(theImage, that.snake.x, that.snake.y, that.snake.width, that.snake.height);
 
         that.snake.drawSnake();
+        that.snake.drawFood();
+        that.allObjects.splice(0, that.snake.segments.length, that.snake.segments);
     
     }, tickRate);
     
@@ -125,6 +134,16 @@ var Snake = function (startingX, startingY, lengthOfSnake, movementSpeed) {
 
 }
 
+// FUNCTION TO SPAWN NEW FOOD AT RANDOM LOCATION
+
+Snake.prototype.spawnFood = function() {
+
+    food = {
+        x: Math.round(Math.floor(Math.random() * 400) / 20) * 20,
+        y: Math.round(Math.floor(Math.random() * 400) / 20) * 20
+    }
+}
+
 Snake.prototype.drawSnake = function(){
     
     var that = this;
@@ -150,6 +169,12 @@ Snake.prototype.resetSnake = function() {
 
 }
 
+Snake.prototype.drawFood = function () {
+
+    ctx.fillRect(food.x,food.y,20,20);
+
+}
+
   // FUNCTION TO CHECK IF SNAKE CAN MOVE
 
 Snake.prototype.canMove = function (snakeFutureX, snakeFutureY, objectsArray) {
@@ -158,13 +183,10 @@ Snake.prototype.canMove = function (snakeFutureX, snakeFutureY, objectsArray) {
     
     for (var i = 0; i < objectsArray.length; i++) {
         if (objectsArray[i].x === snakeFutureX && objectsArray[i].y === snakeFutureY) {
-        (console.log('CANT MOVE'));
         theGame.snake.resetSnake();
         return false;
-
         }
-    }
-        console.log("can move");
+        }
         return true;
         
 }
@@ -212,44 +234,6 @@ Snake.prototype.changeDirection = function() {
         };
     });
 }
-
-// FUNCTION TO LOOP THE SNAKE BACK AROUND IF IT HITS THE EDGE OF THE CANVAS
-
-// Snake.prototype.edgeLoop = function() {
-
-//     var that = this;
-    
-//         if (that.x < 0) {
-    
-//         that.x = canvas.width - 1;
-    
-//     } else if (that.x > canvas.width) {
-    
-//         that.x = 0;
-    
-//     } else if (that.y < 0) {
-    
-//         that.y = canvas.height - 1;
-    
-//     } else if (that.y > canvas.height) {
-    
-//         that.y = 0;
-    
-//     }
-    
-//     }
-
-// Snake.prototype.movementTicks = function (frequency) {
-
-//     var that = this;
-
-//     ctx.clearRect(this.x, this.y, this.width, this.height);
-
-
-
-// }
-
-
 
 // ALL DOM FUNCTIONS PUSHED TO BOTTOM OF JS FILE
 

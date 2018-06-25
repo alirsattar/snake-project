@@ -26,40 +26,53 @@ SnakeGame.prototype.globalTick = function(tickRate) {
         ctx.clearRect(0,0,canvas.width,canvas.height);
         
         // SWITCH TO MOVE SNAKE BASED ON DIRECTION IT'S FACING
+
         
         switch (theGame.snake.directionFacing) {
 
             case 'UP':
+            if (that.snake.canMove(that.snake.x, that.snake.y - unit, that.snake.segments)) {
                 that.snake.y -= unit;
                 that.snake.segments.unshift({x: that.snake.x, y: that.snake.y});
                 if (that.snake.segments.length > that.snake.maxSegments) { that.snake.segments.pop() };
-                break;
+                }
+            break;
 
             case 'DOWN':
+            if (that.snake.canMove(that.snake.x, that.snake.y + unit, that.snake.segments)) {
                 that.snake.y += unit;
                 that.snake.segments.unshift({x: that.snake.x, y: that.snake.y});
                 if (that.snake.segments.length > that.snake.maxSegments) { that.snake.segments.pop() };
-                break;
+                }
+            break;
 
             case 'RIGHT':
+            if (that.snake.canMove(that.snake.x + unit, that.snake.y, that.snake.segments)) {
                 that.snake.x += unit;
                 that.snake.segments.unshift({x: that.snake.x, y: that.snake.y});
                 if (that.snake.segments.length > that.snake.maxSegments) { that.snake.segments.pop() };
-                break;
+                }
+            break;
 
             case 'LEFT':
+            if (that.snake.canMove(that.snake.x - unit, that.snake.y, that.snake.segments)) {
                 that.snake.x -= unit;
                 that.snake.segments.unshift({x: that.snake.x, y: that.snake.y});
                 if (that.snake.segments.length > that.snake.maxSegments) { that.snake.segments.pop() };
-                break;                
+                }
+            break;                
         }
 
+        // DRAWING THE SNAKE BODY SEGMENTS
+        
         ctx.fillStyle = 'green';
         theGame.snake.segments.forEach(function(eachSegment, index) {
             ctx.fillRect(eachSegment.x, eachSegment.y, unit-1, unit-1);
             });
         
-        if (that.snake.x < 0) {
+        // EDGE BOUNDARY LOOPING
+        
+            if (that.snake.x < 0) {
     
             that.snake.x = canvas.width - unit;
         
@@ -126,13 +139,35 @@ Snake.prototype.drawSnake = function(){
     }
   }
 
-// FUNCTION TO CHECK IF SNAKE CAN MOVE
+Snake.prototype.resetSnake = function() {
+    
+    var that = this;
+    
+    that.segments = [];
+    that.x = 200;
+    that.y = 200;
+    that.maxSegments = 4;
 
-// Snake.prototype.canMove = function (futureX, futureY) {
+}
 
-//     if (this.snake.
+  // FUNCTION TO CHECK IF SNAKE CAN MOVE
 
-// }
+Snake.prototype.canMove = function (snakeFutureX, snakeFutureY, objectsArray) {
+
+    var that = this;
+    
+    for (var i = 0; i < objectsArray.length; i++) {
+        if (objectsArray[i].x === snakeFutureX && objectsArray[i].y === snakeFutureY) {
+        (console.log('CANT MOVE'));
+        theGame.snake.resetSnake();
+        return false;
+
+        }
+    }
+        console.log("can move");
+        return true;
+        
+}
 
 // FUNCTION TO CHANGE DIRECTION OF THE SNAKE
 
@@ -145,26 +180,36 @@ Snake.prototype.changeDirection = function() {
         switch (e.which) {
         
         case 38:
-                that.directionFacing = 'UP';
-                that.img = 'snake_head_up.png';
-            break;
+                
+        if (that.directionFacing != 'DOWN') {
+            that.directionFacing = 'UP';
+            that.img = 'snake_head_up.png';
+            }
+        break;
 
         case 40:
+
+        if (that.directionFacing != 'UP') {
             that.directionFacing = 'DOWN';
             that.img = 'snake_head_down.png';
+            }
         break;
     
         case 39:
+            
+        if (that.directionFacing != 'LEFT') {
             that.directionFacing = 'RIGHT';
             that.img = 'snake_head_right.png';
+            }
         break;
     
         case 37:
-        that.directionFacing = 'LEFT';
-        that.img = 'snake_head_left.png';
+        if (that.directionFacing != 'RIGHT') {
+            that.directionFacing = 'LEFT';
+            that.img = 'snake_head_left.png';
+            }
         break;
-        }
-
+        };
     });
 }
 
